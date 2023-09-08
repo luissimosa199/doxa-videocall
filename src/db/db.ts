@@ -1,11 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const MONGODB_URI = process.env.MONGO_URI;
 
 export const connectToDB = () => {
-  mongoose.connect('mongodb+srv://luissimosaarg:7LUaRStYPcD8gkIh@lumedia.hpgzzun.mongodb.net/?retryWrites=true&w=majority', {})
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error);
-  });
+  if (MONGODB_URI) {
+    mongoose
+      .connect(MONGODB_URI, {})
+      .then(() => {
+        console.log("Connected to MongoDB");
+      })
+      .catch((error) => {
+        console.error("Error connecting to MongoDB:", error);
+      });
+  } else {
+    console.error("ERROR, ENV VAR NOT FOUND")
+  }
 };
